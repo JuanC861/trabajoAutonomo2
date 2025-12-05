@@ -69,7 +69,7 @@ def reseteo_bola():
     velocidad_bola_x = velocidad_bola * dir_x
     velocidad_bola_y = velocidad_bola * dir_y
 
-reseteo_bola()
+
 
 #Bucle del juego
 correr = True
@@ -82,7 +82,6 @@ while correr:
     for eventos in pygame.event.get():
         if eventos.type == pygame.QUIT:
             correr = False
-    
 
     #Leer el teclado
     teclado = pygame.key.get_pressed()
@@ -102,13 +101,16 @@ while correr:
     #Si el tope sube a 0 para en 0 y si baja mas que alto la regresamos al limite
     if barra_derecha.top < 0:
         barra_derecha.top = 0
+
     if barra_derecha.bottom > alto:
         barra_derecha.bottom = alto
 
     if barra_izquierda.top < 0:
         barra_izquierda.top = 0
+
     if barra_izquierda.bottom > alto:
         barra_izquierda.bottom = alto
+
 
     #Movimiento de la bola y se movera con movimiento randomizado
     bola_centro.x += velocidad_bola_x
@@ -118,15 +120,17 @@ while correr:
     if bola_centro.top <= 0 or bola_centro.bottom >= alto: 
         velocidad_bola_y *=-1 #cambia de direccion
 
+    #si la bola toca el borde de derecha o izquierda
+    if bola_centro.left <=-100 or bola_centro.right >= ancho+100: 
+        reseteo_bola() #Resetea la bola al momento de pasar los bordes
+
     #COn el colliderect detecta cuando 2 rectangulos se superponen por ende activa el bucle de que cuando choquen con barra cambien de direccion
     if bola_centro.colliderect(barra_izquierda) and velocidad_bola_x < 0:
         velocidad_bola_x *= -1
     if bola_centro.colliderect(barra_derecha) and velocidad_bola_x > 0:
         velocidad_bola_x *= -1
 
-    #si la bola toca el borde de derecha o izquierda
-    if bola_centro.left <=0 or bola_centro.right >= ancho: 
-        velocidad_bola_x *=-1 #cambia de direccion
+
     
     #Pintamos la pantalla, dibujamos barras, dibujamos bola
     ventana.fill(negro)
